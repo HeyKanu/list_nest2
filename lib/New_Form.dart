@@ -3,15 +3,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class New_Form extends StatelessWidget {
+class New_Form extends StatefulWidget {
   var Form_name;
   New_Form({required this.Form_name});
+
+  @override
+  State<New_Form> createState() => _New_FormState();
+}
+
+class _New_FormState extends State<New_Form> {
+  double height_Of_Container = 70;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: My_Drawer(
-        Form_name: Form_name,
+        Form_name: widget.Form_name,
       ),
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -19,12 +26,196 @@ class New_Form extends StatelessWidget {
         backgroundColor: Colors.white,
         centerTitle: true,
         title: Text(
-          Form_name,
+          widget.Form_name,
           // style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Column(),
-      backgroundColor: Color.fromARGB(255, 1, 11, 27),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color.fromARGB(255, 1, 11, 20),
+              Color.fromARGB(255, 4, 31, 54),
+            ],
+            transform: GradientRotation(40),
+            // stops: [0.5, 0],
+          ),
+        ),
+        child: Column(
+          children: [
+            AnimatedContainer(
+              duration: Duration(microseconds: 100000),
+              // color: Color.fromARGB(255, 154, 164, 168),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            // color: Colors.amber,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                //_______________________________________________________________________________  (add text)  ________________________________________
+                                Container(
+                                  height: 50,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                    child: Text("Text"),
+                                  ),
+                                ),
+                                //_______________________________________________________________________________  (add Date)  ________________________________________
+                                Container(
+                                  height: 50,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                    child: Text("Date"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            // color: Colors.amber,
+                            //_______________________________________________________________________________  (add text Area)  ________________________________________
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  height: 50,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                    child: Text("Text area"),
+                                  ),
+                                ),
+                                Container(
+                                  //_______________________________________________________________________________  (add Number)  ________________________________________
+                                  height: 50,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                    child: Text("Number"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            // color: Colors.amber,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  //_______________________________________________________________________________  (add Password)  ________________________________________
+                                  height: 50,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                    child: Text("Password"),
+                                  ),
+                                ),
+                                Container(
+                                  //_______________________________________________________________________________  (add Drop Down)  ________________________________________
+                                  height: 50,
+                                  width: 160,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(),
+                                  ),
+                                  child: Center(
+                                    child: Text("Drou Down"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              height: height_Of_Container,
+              width: double.infinity,
+            ),
+            Container(
+              height: 2,
+              width: double.infinity,
+              color: Colors.white,
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 0),
+              // color: Colors.amber,
+              width: double.infinity,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        height_Of_Container =
+                            height_Of_Container == 70 ? 190 : 70;
+                        setState(() {});
+
+                        print("object");
+                      },
+                      icon: Icon(
+                        height_Of_Container == 70
+                            ? Icons.arrow_drop_down_outlined
+                            : Icons.arrow_drop_up_outlined,
+                        size: 30,
+                        color: Colors.white,
+                      )),
+                ],
+              ),
+            ),
+            // Container(
+            //   height: 500,
+            //   color: Colors.amber,
+            // )
+          ],
+        ),
+      ),
+      // backgroundColor: Color.fromARGB(255, 1, 11, 27),
     );
   }
 }

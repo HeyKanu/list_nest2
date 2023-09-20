@@ -43,6 +43,16 @@ class _Templets_pageState extends State<Templets_page> {
       // backgroundColor: Color.fromARGB(255, 6, 1, 27),
       backgroundColor: Color.fromARGB(255, 1, 11, 27),
       body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 1, 11, 20),
+                Color.fromARGB(255, 4, 31, 54),
+              ],
+              transform: GradientRotation(40),
+              // stops: [0.5, 0],
+            ),
+          ),
           padding: EdgeInsets.all(10),
           child: Scrollbar(
             child: SingleChildScrollView(
@@ -128,10 +138,13 @@ class _Templets_pageState extends State<Templets_page> {
                     style: TextStyle(color: Colors.white),
                   ),
                   content: Container(
+                    // padding: EdgeInsets.only(bottom: 10),
                     width: double.infinity,
-                    height: 30,
+                    // height: 50,
                     child: TextFormField(
                       controller: Form_name_Controler,
+                      minLines: 1,
+                      maxLines: 1,
                       autofocus: true,
                       autocorrect: true,
                       cursorColor: const Color.fromARGB(255, 0, 0, 0),
@@ -159,10 +172,6 @@ class _Templets_pageState extends State<Templets_page> {
                   actions: [
                     TextButton(
                         onPressed: () {
-                          // setState(() {
-                          //   Form_names.add(Form_name_Controler.text);
-                          //   print(Form_names);
-                          // });
                           Form_names.add(Form_name_Controler.text);
                           Form_name_Controler.clear();
                           print(Form_names);
