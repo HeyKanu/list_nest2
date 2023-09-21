@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unnecessary_string_interpolations
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unnecessary_string_interpolations, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -29,7 +29,7 @@ class _Templets_pageState extends State<Templets_page> {
   ];
 
   List<Widget> Select_Form = [];
-  // recently used templets
+  // recently used templets container
   List<String> Form_names = [];
   // All Forms Name
 
@@ -39,10 +39,18 @@ class _Templets_pageState extends State<Templets_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(forceMaterialTransparency: true),
+      appBar: AppBar(
+        forceMaterialTransparency: true,
+        // centerTitle: true,
+        title: Text(
+          "Resently Used",
+          style: TextStyle(color: Colors.white, fontSize: 20),
+        ),
+      ),
       // backgroundColor: Color.fromARGB(255, 6, 1, 27),
       backgroundColor: Color.fromARGB(255, 1, 11, 27),
       body: Container(
+          height: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -172,7 +180,9 @@ class _Templets_pageState extends State<Templets_page> {
                   actions: [
                     TextButton(
                         onPressed: () {
-                          Form_names.add(Form_name_Controler.text);
+                          // Form_names.add(Form_name_Controler.text);
+
+                          Form_names.insert(0, Form_name_Controler.text);
                           Form_name_Controler.clear();
                           print(Form_names);
                           setState(() {
@@ -181,7 +191,7 @@ class _Templets_pageState extends State<Templets_page> {
                           });
 
                           Get.off(New_Form(
-                            Form_name: Form_names[Form_names.length - 1],
+                            Form_name: Form_names[0],
                           ));
                         },
                         child: Text(

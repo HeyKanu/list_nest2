@@ -29,6 +29,20 @@ class _New_FormState extends State<New_Form> {
           widget.Form_name,
           // style: TextStyle(color: Colors.black),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 10),
+            child: GestureDetector(
+              onTap: () {
+                print("object");
+              },
+              child: Icon(
+                Icons.save_as_outlined,
+                size: 30,
+              ),
+            ),
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -63,68 +77,35 @@ class _New_FormState extends State<New_Form> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 //_______________________________________________________________________________  (add text)  ________________________________________
-                                Container(
-                                  height: 50,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: Center(
-                                    child: Text("Text"),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Text("Text"),
+                                    ),
                                   ),
                                 ),
                                 //_______________________________________________________________________________  (add Date)  ________________________________________
-                                Container(
-                                  height: 50,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: Center(
-                                    child: Text("Date"),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 50,
-                            width: double.infinity,
-                            // color: Colors.amber,
-                            //_______________________________________________________________________________  (add text Area)  ________________________________________
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Container(
-                                  height: 50,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: Center(
-                                    child: Text("Text area"),
-                                  ),
-                                ),
-                                Container(
-                                  //_______________________________________________________________________________  (add Number)  ________________________________________
-                                  height: 50,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: Center(
-                                    child: Text("Number"),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Text("Date"),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -137,33 +118,85 @@ class _New_FormState extends State<New_Form> {
                             height: 50,
                             width: double.infinity,
                             // color: Colors.amber,
+
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Container(
-                                  //_______________________________________________________________________________  (add Password)  ________________________________________
-                                  height: 50,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
-                                  ),
-                                  child: Center(
-                                    child: Text("Password"),
+                                //_______________________________________________________________________________  (add text Area)  ________________________________________
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Text("Text area"),
+                                    ),
                                   ),
                                 ),
-                                Container(
-                                  //_______________________________________________________________________________  (add Drop Down)  ________________________________________
-                                  height: 50,
-                                  width: 160,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(),
+                                //_______________________________________________________________________________  (add Number)  ________________________________________
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Text("Number"),
+                                    ),
                                   ),
-                                  child: Center(
-                                    child: Text("Drou Down"),
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            height: 50,
+                            width: double.infinity,
+                            // color: Colors.amber,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                //_______________________________________________________________________________  (add Password)  ________________________________________
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Text("Password"),
+                                    ),
+                                  ),
+                                ),
+                                //_______________________________________________________________________________  (add Drop Down)  ________________________________________
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Container(
+                                    height: 50,
+                                    width: 160,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(),
+                                    ),
+                                    child: Center(
+                                      child: Text("Drop Down"),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -208,10 +241,6 @@ class _New_FormState extends State<New_Form> {
                 ],
               ),
             ),
-            // Container(
-            //   height: 500,
-            //   color: Colors.amber,
-            // )
           ],
         ),
       ),
