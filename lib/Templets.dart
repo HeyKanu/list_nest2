@@ -32,10 +32,95 @@ class _Templets_pageState extends State<Templets_page> {
   // recently used templets container
   List<String> Form_names = [];
   // All Forms Name
-
+  List<Widget> Form_Fields = []; // List of Fields creat by user
   bool Dcolor = false; //Divider color
 
-  // var Form_name;
+  void Add_Fields({required String field}) {
+    if (field == "Text") {
+      Form_Fields.add(
+        TextFormField(
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Date") {
+      Form_Fields.add(
+        Container(
+          child: Center(
+            child: Text("data"),
+          ),
+        ),
+      );
+    } else if (field == "Text Area") {
+      Form_Fields.add(
+        TextFormField(
+          minLines: 1,
+          maxLines: 4,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Number") {
+      Form_Fields.add(
+        TextFormField(
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Password") {
+      Form_Fields.add(
+        TextFormField(
+          obscureText: true,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Drop Down") {
+      Form_Fields.add(DropdownMenu(dropdownMenuEntries: []));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +159,7 @@ class _Templets_pageState extends State<Templets_page> {
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.all(10),
-                          color: Colors.white,
+                          color: Color.fromARGB(255, 255, 255, 255),
                           child: Center(child: Text(Form_names[index])),
                         );
                       },
@@ -189,9 +274,11 @@ class _Templets_pageState extends State<Templets_page> {
                             a++;
                             Dcolor = true;
                           });
-
+// ____________________________________________________________________________________________   (go to next page)   ______________________________________
                           Get.off(New_Form(
                             Form_name: Form_names[0],
+                            Add_Field: Add_Fields,
+                            Form_Fields: Form_Fields,
                           ));
                         },
                         child: Text(

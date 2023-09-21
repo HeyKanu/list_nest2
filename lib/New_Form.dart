@@ -5,7 +5,9 @@ import 'package:get/get.dart';
 
 class New_Form extends StatefulWidget {
   var Form_name;
-  New_Form({required this.Form_name});
+  Function? Add_Field;
+  List<Widget>? Form_Fields;
+  New_Form({required this.Form_name, this.Add_Field, this.Form_Fields});
 
   @override
   State<New_Form> createState() => _New_FormState();
@@ -78,7 +80,11 @@ class _New_FormState extends State<New_Form> {
                               children: [
                                 //_______________________________________________________________________________  (add text)  ________________________________________
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.Add_Field!(field: "Text");
+                                    setState(() {});
+                                    print(widget.Form_Fields);
+                                  },
                                   child: Container(
                                     height: 50,
                                     width: 160,
@@ -94,7 +100,10 @@ class _New_FormState extends State<New_Form> {
                                 ),
                                 //_______________________________________________________________________________  (add Date)  ________________________________________
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.Add_Field!(field: "Date");
+                                    setState(() {});
+                                  },
                                   child: Container(
                                     height: 50,
                                     width: 160,
@@ -124,7 +133,10 @@ class _New_FormState extends State<New_Form> {
                               children: [
                                 //_______________________________________________________________________________  (add text Area)  ________________________________________
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.Add_Field!(field: "Text Area");
+                                    setState(() {});
+                                  },
                                   child: Container(
                                     height: 50,
                                     width: 160,
@@ -140,7 +152,10 @@ class _New_FormState extends State<New_Form> {
                                 ),
                                 //_______________________________________________________________________________  (add Number)  ________________________________________
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.Add_Field!(field: "Number");
+                                    setState(() {});
+                                  },
                                   child: Container(
                                     height: 50,
                                     width: 160,
@@ -169,7 +184,10 @@ class _New_FormState extends State<New_Form> {
                               children: [
                                 //_______________________________________________________________________________  (add Password)  ________________________________________
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.Add_Field!(field: "Password");
+                                    setState(() {});
+                                  },
                                   child: Container(
                                     height: 50,
                                     width: 160,
@@ -185,7 +203,11 @@ class _New_FormState extends State<New_Form> {
                                 ),
                                 //_______________________________________________________________________________  (add Drop Down)  ________________________________________
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    widget.Add_Field!(field: "Drop Down");
+
+                                    setState(() {});
+                                  },
                                   child: Container(
                                     height: 50,
                                     width: 160,
@@ -241,6 +263,24 @@ class _New_FormState extends State<New_Form> {
                 ],
               ),
             ),
+            Container(
+              width: double.infinity,
+              height: 410,
+              child: GridView.builder(
+                itemCount: widget.Form_Fields!.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisExtent: 80,
+                ),
+                itemBuilder: (context, index) {
+                  return Container(
+                    height: 20,
+                    margin: EdgeInsets.all(10),
+                    child: widget.Form_Fields![index],
+                  );
+                },
+              ),
+            )
           ],
         ),
       ),
