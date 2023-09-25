@@ -16,30 +16,128 @@ class _Templets_pageState extends State<Templets_page> {
 
   var Form_name_Controler = TextEditingController();
 
-  List<String> Templets_Names = [
-    "Temp 1",
-    "Temp 2",
-    "Temp 3",
-    "Temp 4",
-    "Temp 5",
-    "Temp 6",
-    "Temp 7",
-    "Temp 8",
-    "Temp 9",
-  ];
+  List<String> Filds_Names = []; // Filds Names
+  List<String> Text_Filds_Lable = []; // Text Filds Lable
+  List<String> Text_Filds_Hint = []; // Text Filds Hint
 
-  List<Widget> Select_Form = [];
-  // recently used templets container
-  List<String> Form_names = [];
-  // All Forms Name
+  List<String> Form_names = []; // All Forms Name
   List<Widget> Form_Fields = []; // List of Fields creat by user
   bool Dcolor = false; //Divider color
+  // ______________________________________________________________   (Templet 1)   ____________________________________
+  Widget R1({required String img, String? name}) {
+    return GestureDetector(
+      onTap: () {
+        print("object");
+      },
+      child: Container(
+        padding: EdgeInsets.all(3),
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        child: Container(
+          height: 125,
+          width: 210,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(img),
+              fit: BoxFit.cover,
+            ),
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40),
+                        bottomRight: Radius.circular(50)),
+                  ),
+                  // clipBehavior: Clip.hardEdge,
+                  width: 215,
+                  height: 20,
 
-  void Add_Fields({required String field}) {
+                  child: Center(
+                      child: Text(
+                    "$name",
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                  )),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ______________________________________________________________   (Templet 2)   ____________________________________
+  Widget S1({required String img, String? name}) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(20)),
+        padding: EdgeInsets.all(3),
+        child: Container(
+          height: 125,
+          width: 100,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(img),
+              fit: BoxFit.cover,
+            ),
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Stack(
+            children: [
+              Positioned(
+                bottom: 0,
+                left: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40),
+                        bottomRight: Radius.circular(50)),
+                  ),
+                  // clipBehavior: Clip.hardEdge,
+                  width: 105,
+                  height: 20,
+
+                  child: Center(
+                      child: Text(
+                    "$name",
+                    style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+                  )),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void Add_Hint_Lable() {
+    Text_Filds_Lable.add("value");
+    Text_Filds_Hint.add("value");
+    // print(Text_Filds_Hint.length);
+    print("object7777777");
+    setState(() {});
+  }
+
+  void Add_Fields({required String field, required int index_of_H_L}) {
     if (field == "Text") {
       Form_Fields.add(
         TextFormField(
+          onChanged: (value) {},
           decoration: InputDecoration(
+            hintText: Text_Filds_Hint[index_of_H_L],
+            labelText: Text_Filds_Lable[index_of_H_L],
             filled: true,
             fillColor: Colors.white,
             focusedBorder: OutlineInputBorder(
@@ -57,7 +155,7 @@ class _Templets_pageState extends State<Templets_page> {
       Form_Fields.add(
         Container(
           child: Center(
-            child: Text("data"),
+            child: Text("${DateTime.now()}"),
           ),
         ),
       );
@@ -85,6 +183,8 @@ class _Templets_pageState extends State<Templets_page> {
         TextFormField(
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
+            hintText: Text_Filds_Hint[index_of_H_L],
+            labelText: Text_Filds_Lable[index_of_H_L],
             filled: true,
             fillColor: Colors.white,
             focusedBorder: OutlineInputBorder(
@@ -103,6 +203,8 @@ class _Templets_pageState extends State<Templets_page> {
         TextFormField(
           obscureText: true,
           decoration: InputDecoration(
+            hintText: Text_Filds_Hint[index_of_H_L],
+            labelText: Text_Filds_Lable[index_of_H_L],
             filled: true,
             fillColor: Colors.white,
             focusedBorder: OutlineInputBorder(
@@ -128,7 +230,7 @@ class _Templets_pageState extends State<Templets_page> {
         forceMaterialTransparency: true,
         // centerTitle: true,
         title: Text(
-          "Resently Used",
+          Form_names.length > 0 ? "Resently used" : "Templets",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
       ),
@@ -159,8 +261,15 @@ class _Templets_pageState extends State<Templets_page> {
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.all(10),
-                          color: Color.fromARGB(255, 255, 255, 255),
-                          child: Center(child: Text(Form_names[index])),
+                          decoration: BoxDecoration(
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Center(
+                            child: Text(
+                              Form_names[index],
+                            ),
+                          ),
                         );
                       },
                       scrollDirection: Axis.horizontal,
@@ -178,29 +287,63 @@ class _Templets_pageState extends State<Templets_page> {
                   // ______________________________________________________________________________   ( templets )    ____________________________________________________________________________________
                   Container(
                     padding: EdgeInsets.all(0),
-                    height: 550,
+                    // height: 550,
                     width: double.infinity,
-                    child: GridView.builder(
-                      physics: ScrollPhysics(parent: ScrollPhysics()),
-                      itemCount: Templets_Names.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          mainAxisExtent: 160),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () {
-                            print("object");
-                          },
-                          child: Container(
-                            color: Colors.white,
-                            child: Center(
-                              child: Text(Templets_Names[index]),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            R1(
+                              img: "lib/assets/images/electonic goods.jpg",
+                              name: "Electronic goods",
                             ),
-                          ),
-                        );
-                      },
+                            S1(
+                              img: "lib/assets/images/marketing.jpg",
+                              name: "Digital Marke",
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            S1(
+                                img: "lib/assets/images/payment.jpg",
+                                name: "Payments"),
+                            R1(
+                                img: "lib/assets/images/mar.jpg",
+                                name: "internet Connection"),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            R1(
+                                img: "lib/assets/images/cab2.jpg",
+                                name: "Cable Connection"),
+                            S1(img: "lib/assets/images/Rent4.png", name: "Rent")
+                          ],
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        //   children: [
+                        //     S1(),
+                        //     R1(),
+                        //   ],
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
+                      ],
                     ),
                   ),
                 ],
@@ -232,9 +375,10 @@ class _Templets_pageState extends State<Templets_page> {
                   ),
                   content: Container(
                     // padding: EdgeInsets.only(bottom: 10),
-                    width: double.infinity,
-                    // height: 50,
+                    width: 350,
+                    height: 25,
                     child: TextFormField(
+                      // style: TextStyle(height: 0.3),
                       controller: Form_name_Controler,
                       minLines: 1,
                       maxLines: 1,
@@ -279,6 +423,8 @@ class _Templets_pageState extends State<Templets_page> {
                             Form_name: Form_names[0],
                             Add_Field: Add_Fields,
                             Form_Fields: Form_Fields,
+                            Filds_Name: Filds_Names,
+                            Add_Hint_Lable: Add_Hint_Lable,
                           ));
                         },
                         child: Text(

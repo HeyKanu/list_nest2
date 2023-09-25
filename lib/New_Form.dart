@@ -6,8 +6,15 @@ import 'package:get/get.dart';
 class New_Form extends StatefulWidget {
   var Form_name;
   Function? Add_Field;
+  Function? Add_Hint_Lable;
   List<Widget>? Form_Fields;
-  New_Form({required this.Form_name, this.Add_Field, this.Form_Fields});
+  List<String>? Filds_Name;
+  New_Form(
+      {required this.Form_name,
+      this.Add_Field,
+      this.Form_Fields,
+      this.Filds_Name,
+      required this.Add_Hint_Lable});
 
   @override
   State<New_Form> createState() => _New_FormState();
@@ -15,12 +22,20 @@ class New_Form extends StatefulWidget {
 
 class _New_FormState extends State<New_Form> {
   double height_Of_Container = 70;
+  bool edit_Box = true;
+
+  int Grid_column = 1;
+  void Refresh(int i) {
+    Grid_column = i;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: My_Drawer(
         Form_name: widget.Form_name,
+        Refresh: Refresh,
       ),
       appBar: AppBar(
         foregroundColor: Colors.black,
@@ -59,6 +74,16 @@ class _New_FormState extends State<New_Form> {
         ),
         child: Column(
           children: [
+            // ________________________________________________________________________________   (  Edit Box  )    _______________________________________________________________________
+            AnimatedContainer(
+              duration: Duration(microseconds: 100000),
+              margin: EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              height: 190,
+              width: double.infinity,
+              decoration: BoxDecoration(color: Colors.white),
+            ),
             AnimatedContainer(
               duration: Duration(microseconds: 100000),
               // color: Color.fromARGB(255, 154, 164, 168),
@@ -81,9 +106,18 @@ class _New_FormState extends State<New_Form> {
                                 //_______________________________________________________________________________  (add text)  ________________________________________
                                 GestureDetector(
                                   onTap: () {
-                                    widget.Add_Field!(field: "Text");
+                                    widget.Filds_Name!.add("Text");
+                                    int Filds_Name_Length =
+                                        widget.Filds_Name!.length;
+                                    widget
+                                        .Add_Hint_Lable!(); // add hint and lable text
+
+                                    widget.Add_Field!(
+                                        field: widget
+                                            .Filds_Name![Filds_Name_Length - 1],
+                                        index_of_H_L: Filds_Name_Length - 1);
                                     setState(() {});
-                                    print(widget.Form_Fields);
+                                    print(Filds_Name_Length - 1);
                                   },
                                   child: Container(
                                     height: 50,
@@ -101,7 +135,16 @@ class _New_FormState extends State<New_Form> {
                                 //_______________________________________________________________________________  (add Date)  ________________________________________
                                 GestureDetector(
                                   onTap: () {
-                                    widget.Add_Field!(field: "Date");
+                                    widget.Filds_Name!.add("Date");
+                                    int Filds_Name_Length =
+                                        widget.Filds_Name!.length;
+                                    widget
+                                        .Add_Hint_Lable!(); // add hint and lable text
+
+                                    widget.Add_Field!(
+                                        field: widget
+                                            .Filds_Name![Filds_Name_Length - 1],
+                                        index_of_H_L: Filds_Name_Length - 1);
                                     setState(() {});
                                   },
                                   child: Container(
@@ -134,7 +177,16 @@ class _New_FormState extends State<New_Form> {
                                 //_______________________________________________________________________________  (add text Area)  ________________________________________
                                 GestureDetector(
                                   onTap: () {
-                                    widget.Add_Field!(field: "Text Area");
+                                    widget.Filds_Name!.add("Text Area");
+                                    int Filds_Name_Length =
+                                        widget.Filds_Name!.length;
+                                    widget
+                                        .Add_Hint_Lable!(); // add hint and lable text
+
+                                    widget.Add_Field!(
+                                        field: widget
+                                            .Filds_Name![Filds_Name_Length - 1],
+                                        index_of_H_L: Filds_Name_Length - 1);
                                     setState(() {});
                                   },
                                   child: Container(
@@ -153,7 +205,16 @@ class _New_FormState extends State<New_Form> {
                                 //_______________________________________________________________________________  (add Number)  ________________________________________
                                 GestureDetector(
                                   onTap: () {
-                                    widget.Add_Field!(field: "Number");
+                                    widget.Filds_Name!.add("Number");
+                                    int Filds_Name_Length =
+                                        widget.Filds_Name!.length;
+                                    widget
+                                        .Add_Hint_Lable!(); // add hint and lable text
+
+                                    widget.Add_Field!(
+                                        field: widget
+                                            .Filds_Name![Filds_Name_Length - 1],
+                                        index_of_H_L: Filds_Name_Length - 1);
                                     setState(() {});
                                   },
                                   child: Container(
@@ -185,7 +246,17 @@ class _New_FormState extends State<New_Form> {
                                 //_______________________________________________________________________________  (add Password)  ________________________________________
                                 GestureDetector(
                                   onTap: () {
-                                    widget.Add_Field!(field: "Password");
+                                    widget.Filds_Name!.add("Password");
+                                    int Filds_Name_Length =
+                                        widget.Filds_Name!.length;
+                                    widget
+                                        .Add_Hint_Lable!(); // add hint and lable text
+
+                                    widget.Add_Field!(
+                                        field: widget
+                                            .Filds_Name![Filds_Name_Length - 1],
+                                        index_of_H_L: Filds_Name_Length - 1);
+
                                     setState(() {});
                                   },
                                   child: Container(
@@ -204,8 +275,16 @@ class _New_FormState extends State<New_Form> {
                                 //_______________________________________________________________________________  (add Drop Down)  ________________________________________
                                 GestureDetector(
                                   onTap: () {
-                                    widget.Add_Field!(field: "Drop Down");
+                                    widget.Filds_Name!.add("Drop Down");
+                                    int Filds_Name_Length =
+                                        widget.Filds_Name!.length;
+                                    widget
+                                        .Add_Hint_Lable!(); // add hint and lable text
 
+                                    widget.Add_Field!(
+                                        field: widget
+                                            .Filds_Name![Filds_Name_Length - 1],
+                                        index_of_H_L: Filds_Name_Length - 1);
                                     setState(() {});
                                   },
                                   child: Container(
@@ -263,22 +342,32 @@ class _New_FormState extends State<New_Form> {
                 ],
               ),
             ),
-            Container(
-              width: double.infinity,
-              height: 410,
-              child: GridView.builder(
-                itemCount: widget.Form_Fields!.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisExtent: 80,
+            Expanded(
+              child: Container(
+                width: double.infinity,
+                // height: MediaQuery.of(context).size.height - 450,
+                child: GridView.builder(
+                  itemCount: widget.Form_Fields!.length,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: Grid_column,
+                    mainAxisExtent: 80,
+                  ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        print("object");
+                      },
+                      child: Container(
+                        // padding: EdgeInsets.all(5),
+                        // color: Colors.white,
+                        height: 20,
+                        margin: EdgeInsets.all(10),
+                        child: AbsorbPointer(
+                            child: widget.Form_Fields![index], absorbing: true),
+                      ),
+                    );
+                  },
                 ),
-                itemBuilder: (context, index) {
-                  return Container(
-                    height: 20,
-                    margin: EdgeInsets.all(10),
-                    child: widget.Form_Fields![index],
-                  );
-                },
               ),
             )
           ],
@@ -289,10 +378,18 @@ class _New_FormState extends State<New_Form> {
   }
 }
 
-class My_Drawer extends StatelessWidget {
+class My_Drawer extends StatefulWidget {
   var Form_name;
-  My_Drawer({super.key, required this.Form_name});
 
+  late Function Refresh;
+  My_Drawer({super.key, required this.Form_name, required this.Refresh});
+
+  @override
+  State<My_Drawer> createState() => _My_DrawerState();
+}
+
+class _My_DrawerState extends State<My_Drawer> {
+  bool c1 = false, c2 = false, c3 = false, c4 = false;
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -317,7 +414,7 @@ class My_Drawer extends StatelessWidget {
               // crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  Form_name,
+                  widget.Form_name,
                   style: TextStyle(color: Colors.white, fontSize: 30),
                 ),
               ],
@@ -354,25 +451,55 @@ class My_Drawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        height: 30,
-                        width: 60,
-                        color: Colors.black,
-                        child: Center(
-                          child: Text(
-                            "1",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          c1 = true;
+                          c2 = false;
+                          c3 = false;
+                          c4 = false;
+                          widget.Refresh(1);
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: c1
+                                  ? Color.fromARGB(255, 1, 18, 41)
+                                  : Color.fromARGB(255, 4, 51, 116)),
+                          child: Center(
+                            child: Text(
+                              "1",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        color: Colors.black,
-                        child: Center(
-                          child: Text(
-                            "2",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          c1 = false;
+                          c2 = true;
+                          c3 = false;
+                          c4 = false;
+                          widget.Refresh(2);
+                          setState(() {});
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: c2
+                                  ? Color.fromARGB(255, 1, 18, 41)
+                                  : Color.fromARGB(255, 4, 51, 116)),
+                          height: 30,
+                          width: 60,
+                          child: Center(
+                            child: Text(
+                              "2",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
@@ -384,25 +511,56 @@ class My_Drawer extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Container(
-                        height: 30,
-                        width: 60,
-                        color: Colors.black,
-                        child: Center(
-                          child: Text(
-                            "3",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          c1 = false;
+                          c2 = false;
+                          c3 = true;
+                          c4 = false;
+                          widget.Refresh(3);
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 60,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: c3
+                                  ? Color.fromARGB(255, 1, 18, 41)
+                                  : Color.fromARGB(255, 4, 51, 116)),
+                          child: Center(
+                            child: Text(
+                              "3",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
-                      Container(
-                        height: 30,
-                        width: 60,
-                        color: Colors.black,
-                        child: Center(
-                          child: Text(
-                            "4",
-                            style: TextStyle(fontSize: 20, color: Colors.white),
+                      GestureDetector(
+                        onTap: () {
+                          c1 = false;
+                          c2 = false;
+                          c3 = false;
+                          c4 = true;
+                          widget.Refresh(4);
+                          setState(() {});
+                        },
+                        child: Container(
+                          height: 30,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: c4
+                                ? Color.fromARGB(255, 1, 18, 41)
+                                : Color.fromARGB(255, 4, 51, 116),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "4",
+                              style:
+                                  TextStyle(fontSize: 20, color: Colors.white),
+                            ),
                           ),
                         ),
                       ),
