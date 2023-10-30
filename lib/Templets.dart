@@ -23,6 +23,7 @@ class _Templets_pageState extends State<Templets_page> {
   List<String> Form_names = []; // All Forms Name
   List<Widget> Form_Fields = []; // List of Fields creat by user
   bool Dcolor = false; //Divider color
+
   // ______________________________________________________________   (Templet 1)   ____________________________________
   Widget R1({required String img, String? name}) {
     return GestureDetector(
@@ -123,10 +124,10 @@ class _Templets_pageState extends State<Templets_page> {
   }
 
   void Add_Hint_Lable() {
-    Text_Filds_Lable.add("value");
+    Text_Filds_Lable.add("value1111");
     Text_Filds_Hint.add("value");
     // print(Text_Filds_Hint.length);
-    print("object7777777");
+    print(Text_Filds_Lable);
     setState(() {});
   }
 
@@ -154,6 +155,7 @@ class _Templets_pageState extends State<Templets_page> {
     } else if (field == "Date") {
       Form_Fields.add(
         Container(
+          color: Colors.white,
           child: Center(
             child: Text("${DateTime.now()}"),
           ),
@@ -165,6 +167,7 @@ class _Templets_pageState extends State<Templets_page> {
           minLines: 1,
           maxLines: 4,
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.zero,
             filled: true,
             fillColor: Colors.white,
             focusedBorder: OutlineInputBorder(
@@ -183,6 +186,7 @@ class _Templets_pageState extends State<Templets_page> {
         TextFormField(
           keyboardType: TextInputType.number,
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.zero,
             hintText: Text_Filds_Hint[index_of_H_L],
             labelText: Text_Filds_Lable[index_of_H_L],
             filled: true,
@@ -203,6 +207,7 @@ class _Templets_pageState extends State<Templets_page> {
         TextFormField(
           obscureText: true,
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.zero,
             hintText: Text_Filds_Hint[index_of_H_L],
             labelText: Text_Filds_Lable[index_of_H_L],
             filled: true,
@@ -386,6 +391,7 @@ class _Templets_pageState extends State<Templets_page> {
                       autocorrect: true,
                       cursorColor: const Color.fromARGB(255, 0, 0, 0),
                       decoration: InputDecoration(
+                        contentPadding: EdgeInsets.zero,
                         filled: true,
                         fillColor: Colors.white,
                         disabledBorder: OutlineInputBorder(
@@ -425,6 +431,8 @@ class _Templets_pageState extends State<Templets_page> {
                             Form_Fields: Form_Fields,
                             Filds_Name: Filds_Names,
                             Add_Hint_Lable: Add_Hint_Lable,
+                            Leble_Text: Text_Filds_Lable,
+                            Hint_Text: Text_Filds_Hint,
                           ));
                         },
                         child: Text(

@@ -54,9 +54,27 @@ class Sign_Up_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'please enter your Usr Name';
+                      }
+                      return null;
+                    },
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
                       labelText: "User Name",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),
@@ -82,9 +100,27 @@ class Sign_Up_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'please enter your Email - Id';
+                      }
+                      return null;
+                    },
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
                       labelText: "Email",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),
@@ -110,10 +146,28 @@ class Sign_Up_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'please enter your Password';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
                       labelText: "Password",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),
@@ -143,10 +197,28 @@ class Sign_Up_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'please enter your Password';
+                      }
+                      return null;
+                    },
                     obscureText: true,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(90),
+                        borderSide: BorderSide(
+                          color: const Color.fromARGB(255, 255, 0, 0),
+                        ),
+                      ),
                       labelText: "Confirm Password",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),
@@ -176,6 +248,12 @@ class Sign_Up_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: TextFormField(
+                    validator: (value) {
+                      if (value!.isEmpty || value == null) {
+                        return 'please enter your Phone Number';
+                      }
+                      return null;
+                    },
                     keyboardType: TextInputType.phone,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
@@ -208,6 +286,7 @@ class Sign_Up_Page extends StatelessWidget {
                     Get.off(Templets_page());
                     print("object");
                   },
+
                   child: Container(
                     height: 60,
                     width: double.infinity,
