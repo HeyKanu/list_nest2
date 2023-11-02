@@ -8,6 +8,7 @@ import 'package:list_nest2/Templets.dart';
 class Login_Page extends StatelessWidget {
   @override
   final _login_key = GlobalKey<FormState>();
+
   Widget build(BuildContext context) {
     return Scaffold(
         // backgroundColor: Color.fromARGB(255, 1, 11, 20),
@@ -100,8 +101,12 @@ class Login_Page extends StatelessWidget {
                   margin: EdgeInsets.only(top: 30),
                   child: TextFormField(
                     validator: (value) {
-                      if (value!.isEmpty || value == null) {
-                        return 'please enter your Password';
+                      if (value!.isEmpty || value == null || value.length < 6) {
+                        if (value.isEmpty) {
+                          return 'please enter your Password';
+                        } else if (value.length < 6) {
+                          return 'minimum length of password 6 is required ';
+                        }
                       }
                       return null;
                     },
