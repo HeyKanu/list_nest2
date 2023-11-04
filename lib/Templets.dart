@@ -1,7 +1,11 @@
-// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unnecessary_string_interpolations, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, non_constant_identifier_names, unnecessary_string_interpolations, prefer_const_literals_to_create_immutables, unused_import
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:list_nest2/Login.dart';
 import './New_Form.dart';
 
 class Templets_page extends StatefulWidget {
@@ -167,6 +171,7 @@ class _Templets_pageState extends State<Templets_page> {
           minLines: 1,
           maxLines: 4,
           decoration: InputDecoration(
+            labelText: Text_Filds_Lable[index_of_H_L],
             contentPadding: EdgeInsets.zero,
             filled: true,
             fillColor: Colors.white,
@@ -238,6 +243,14 @@ class _Templets_pageState extends State<Templets_page> {
           Form_names.length > 0 ? "Resently used" : "Templets",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseAuth.instance.signOut();
+                Get.offAll(Login_Page());
+              },
+              icon: Icon(Icons.logout_outlined))
+        ],
       ),
       // backgroundColor: Color.fromARGB(255, 6, 1, 27),
       backgroundColor: Color.fromARGB(255, 1, 11, 27),
@@ -363,6 +376,10 @@ class _Templets_pageState extends State<Templets_page> {
         ),
         child: FloatingActionButton.extended(
           onPressed: () {
+            Filds_Names.clear();
+            Text_Filds_Lable.clear();
+            Text_Filds_Hint.clear();
+            Form_Fields.clear();
             Form_name_Controler.text = "Form ${a.toString()}";
             setState(() {});
             // Form_name = "form" + "${a.toString()}";
@@ -414,11 +431,15 @@ class _Templets_pageState extends State<Templets_page> {
                   ),
                   actions: [
                     TextButton(
-                        onPressed: () {
+                        onPressed: () async {
                           // Form_names.add(Form_name_Controler.text);
 
                           Form_names.insert(0, Form_name_Controler.text);
                           Form_name_Controler.clear();
+                          await FirebaseFirestore.instance
+                              .collection(Form_names[0])
+                              .doc()
+                              .set({});
                           print(Form_names);
                           setState(() {
                             a++;

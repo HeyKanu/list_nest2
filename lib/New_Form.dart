@@ -1,9 +1,17 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, non_constant_identifier_names
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, non_constant_identifier_names, unused_import
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_launcher_icons/main.dart';
 import 'package:get/get.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:get/get.dart';
+import './show_form.dart';
 
 class New_Form extends StatefulWidget {
   var Form_name;
@@ -31,14 +39,16 @@ class New_Form extends StatefulWidget {
 class _New_FormState extends State<New_Form> {
   double height_Of_Container = 70;
   bool edit_Box = false;
-
+  User? currrent_user = FirebaseAuth.instance.currentUser;
   int Grid_column = 1;
   double height_of_field = 80;
   var index_Num; //Selected field
-  void Refresh(
-    int i,
-  ) {
+  void Refresh(int i) {
     Grid_column = i;
+    FirebaseFirestore.instance
+        .collection(widget.Form_name)
+        .doc("Number of column")
+        .set({"Grid": Grid_column});
     setState(() {});
   }
 
@@ -68,8 +78,58 @@ class _New_FormState extends State<New_Form> {
           Padding(
             padding: EdgeInsets.only(right: 10),
             child: GestureDetector(
-              onTap: () {
-                print("object");
+              onTap: () async {
+                Map<String, String> Map_Filds_Name =
+                    {}; //firebase me store karne ke liye map me convert kiya
+                Map<String, String> Map_Leble_Text =
+                    {}; //firebase me store karne ke liye map me convert kiya
+                Map<String, String> Map_Hint_Text =
+                    {}; //firebase me store karne ke liye map me convert kiya
+                for (int i = 0; i < widget.Filds_Name!.length; i++) {
+                  Map_Filds_Name[i.toString()] = widget.Filds_Name![i];
+                }
+                Map_Filds_Name["UserId"] = "${currrent_user?.uid}";
+                Map_Filds_Name["Length"] = "${widget.Filds_Name!.length}";
+                await FirebaseFirestore.instance
+                    .collection("form")
+                    .doc(widget.Form_name)
+                    .collection("form_list")
+                    .doc("filds name")
+                    .set(Map_Filds_Name);
+
+                for (int i = 0; i < widget.Leble_Text!.length; i++) {
+                  Map_Leble_Text[i.toString()] = widget.Leble_Text![i];
+                }
+                Map_Leble_Text["UserId"] = "${currrent_user?.uid}";
+                Map_Leble_Text["Length"] = "${widget.Leble_Text!.length}";
+                await FirebaseFirestore.instance
+                    .collection("form")
+                    .doc(widget.Form_name)
+                    .collection("form_list")
+                    .doc("Lables Text")
+                    .set(Map_Leble_Text);
+                for (int i = 0; i < widget.Hint_Text!.length; i++) {
+                  Map_Hint_Text[i.toString()] = widget.Hint_Text![i];
+                }
+                Map_Hint_Text["UserId"] = "${currrent_user?.uid}";
+                Map_Hint_Text["Length"] =
+                    "${widget.Hint_Text!.length.toString()}";
+                await FirebaseFirestore.instance
+                    .collection("form")
+                    .doc(widget.Form_name)
+                    .collection("form_list")
+                    .doc("hint Text")
+                    .set(Map_Hint_Text);
+                // print(Map_Filds_Name);
+                widget.Filds_Name!.clear();
+                widget.Hint_Text!.clear();
+                widget.Leble_Text!.clear();
+                Get.to(() => Show_my_form(
+                      // Filds_Name: widget.Filds_Name,
+                      // Hint_Text: widget.Hint_Text,
+                      // Leble_Text: widget.Leble_Text,
+                      Form_Name: widget.Form_name,
+                    ));
               },
               child: Icon(
                 Icons.save_as_outlined,
@@ -786,7 +846,7 @@ class _My_DrawerState extends State<My_Drawer> {
                           c2 = false;
                           c3 = false;
                           c4 = true;
-                          widget.Refresh();
+                          widget.Refresh(4);
                           setState(() {});
                         },
                         child: Container(

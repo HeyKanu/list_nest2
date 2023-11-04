@@ -1,12 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_unnecessary_containers
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:list_nest2/SignUp.dart';
 import 'package:list_nest2/Templets.dart';
+import './forget_screen.dart';
 
 class Login_Page extends StatelessWidget {
   @override
+  var email_con = TextEditingController();
+  var password_con = TextEditingController();
   final _login_key = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
@@ -54,6 +60,7 @@ class Login_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 30),
                   child: TextFormField(
+                    controller: email_con,
                     validator: (value) {
                       if (value!.isEmpty || value == null) {
                         return 'please enter your Email - Id';
@@ -100,6 +107,7 @@ class Login_Page extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(top: 30),
                   child: TextFormField(
+                    controller: password_con,
                     validator: (value) {
                       if (value!.isEmpty || value == null || value.length < 6) {
                         if (value.isEmpty) {
@@ -152,13 +160,46 @@ class Login_Page extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(Forget_password());
+                      },
+                      child: Text(
+                        "Forget Password",
+                        style: TextStyle(
+                            color: Color.fromARGB(166, 255, 255, 255)),
+                      ),
+                    )
+                  ],
+                ),
                 GestureDetector(
                   // borderRadius: BorderRadius.circular(100),
-                  onTap: () {
+                  onTap: () async {
                     if (_login_key.currentState!.validate()) {
                       print("validated");
+                      String email_text = email_con.text.trim();
+                      String password_text = password_con.text.trim();
+                      try {
+                        final User? firebaseUser = (await FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: email_text, password: password_text))
+                            .user;
 
-                      Get.off(Templets_page());
+                        if (firebaseUser != null) {
+                          Get.off(Templets_page());
+                        } else {
+                          print("check Email and password");
+                        }
+                      } on FirebaseAuthException catch (e) {
+                        print("Error : $e");
+                      }
+                      ;
                     } else {
                       print("Not validate");
                     }
