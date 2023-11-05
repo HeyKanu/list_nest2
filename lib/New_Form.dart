@@ -43,12 +43,8 @@ class _New_FormState extends State<New_Form> {
   int Grid_column = 1;
   double height_of_field = 80;
   var index_Num; //Selected field
-  void Refresh(int i) {
+  void Refresh([int i = 1]) {
     Grid_column = i;
-    FirebaseFirestore.instance
-        .collection(widget.Form_name)
-        .doc("Number of column")
-        .set({"Grid": Grid_column});
     setState(() {});
   }
 
@@ -90,6 +86,7 @@ class _New_FormState extends State<New_Form> {
                 }
                 Map_Filds_Name["UserId"] = "${currrent_user?.uid}";
                 Map_Filds_Name["Length"] = "${widget.Filds_Name!.length}";
+                Map_Filds_Name["Grid"] = Grid_column.toString();
                 await FirebaseFirestore.instance
                     .collection("form")
                     .doc(widget.Form_name)
@@ -102,6 +99,7 @@ class _New_FormState extends State<New_Form> {
                 }
                 Map_Leble_Text["UserId"] = "${currrent_user?.uid}";
                 Map_Leble_Text["Length"] = "${widget.Leble_Text!.length}";
+
                 await FirebaseFirestore.instance
                     .collection("form")
                     .doc(widget.Form_name)

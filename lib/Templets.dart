@@ -3,9 +3,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:list_nest2/Login.dart';
+import 'package:list_nest2/show_form.dart';
 import './New_Form.dart';
 
 class Templets_page extends StatefulWidget {
@@ -27,6 +29,7 @@ class _Templets_pageState extends State<Templets_page> {
   List<String> Form_names = []; // All Forms Name
   List<Widget> Form_Fields = []; // List of Fields creat by user
   bool Dcolor = false; //Divider color
+  User? current_user = FirebaseAuth.instance.currentUser;
 
   // ______________________________________________________________   (Templet 1)   ____________________________________
   Widget R1({required String img, String? name}) {
@@ -273,31 +276,69 @@ class _Templets_pageState extends State<Templets_page> {
                 children: [
                   // ______________________________________________________________________________   ( recently used templets )    ____________________________________________________________________________________
                   Container(
-                    height: Form_names.length > 0 ? 150 : 0,
-                    child: ListView.builder(
-                      itemExtent: 105,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                            child: Text(
-                              Form_names[index],
-                            ),
-                          ),
-                        );
-                      },
-                      scrollDirection: Axis.horizontal,
-                      itemCount: Form_names.length,
-                    ),
-                  ),
+                      height: 150,
+                      child: StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("forms name")
+                              .where("userId", isEqualTo: current_user?.uid)
+                              .snapshots(),
+                          builder:
+                              (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                            if (snapshot.hasError) {
+                              return Text("Something went wrong");
+                            }
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(
+                                  child: CupertinoActivityIndicator());
+                            }
+                            if (snapshot.data!.docs.isEmpty) {
+                              return Text("No data found");
+                            }
+                            if (snapshot != null && snapshot.data != null) {
+                              Form_names.clear();
+
+                              int length_of_Form_name =
+                                  int.parse(snapshot.data!.docs[0]["Length"]);
+                              for (int j = 0; j < length_of_Form_name; j++) {
+                                Form_names.add(
+                                    snapshot.data!.docs[0][j.toString()]);
+                                print(Form_names);
+                              }
+                              return ListView.builder(
+                                itemExtent: 105,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Get.to(Show_my_form(
+                                        Form_Name: Form_names[index],
+                                      ));
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.all(10),
+                                      decoration: BoxDecoration(
+                                        color:
+                                            Color.fromARGB(255, 255, 255, 255),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          Form_names[index],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                                scrollDirection: Axis.horizontal,
+                                itemCount: Form_names.length,
+                              );
+
+                              return Container();
+                            }
+                            return Container();
+                          })),
                   Divider(
-                    color: Dcolor == false
-                        ? Color.fromARGB(255, 1, 11, 27)
-                        : Colors.white,
+                    color: Colors.white,
                   ),
                   SizedBox(
                     height: 10,
@@ -445,6 +486,20 @@ class _Templets_pageState extends State<Templets_page> {
                             a++;
                             Dcolor = true;
                           });
+                          // _____________________________________________________________    (Data base work)    _______________________________________
+                          Map<String, String> Map_Form_Names = {};
+                          for (int i = 0; i < Form_names.length; i++) {
+                            Map_Form_Names[i.toString()] = Form_names[i];
+                          }
+                          Map_Form_Names["userId"] =
+                              current_user!.uid.toString();
+                          Map_Form_Names["Length"] =
+                              Form_names.length.toString();
+
+                          await FirebaseFirestore.instance
+                              .collection("forms name")
+                              .doc("names")
+                              .set(Map_Form_Names);
 // ____________________________________________________________________________________________   (go to next page)   ______________________________________
                           Get.off(New_Form(
                             Form_name: Form_names[0],
