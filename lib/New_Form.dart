@@ -15,21 +15,21 @@ import './show_form.dart';
 
 class New_Form extends StatefulWidget {
   var Form_name;
-  Function? Add_Field;
-  Function? Add_Hint_Lable;
+  // Function? Add_Field;
+  // Function? Add_Hint_Lable;
 
-  List<Widget>? Form_Fields;
+  // List<Widget>? Form_Fields;
   List<String>? Filds_Name;
-  List<String>? Leble_Text;
-  List<String>? Hint_Text;
+  // List<String>? Leble_Text;
+  // List<String>? Hint_Text;
   New_Form({
     required this.Form_name,
-    this.Add_Field,
-    this.Form_Fields,
+    // this.Add_Field,
+    // this.Form_Fields,
     this.Filds_Name,
-    required this.Add_Hint_Lable,
-    required this.Leble_Text,
-    required this.Hint_Text,
+    // required this.Add_Hint_Lable,
+    // required this.Leble_Text,
+    // required this.Hint_Text,
   });
 
   @override
@@ -37,6 +37,10 @@ class New_Form extends StatefulWidget {
 }
 
 class _New_FormState extends State<New_Form> {
+  List<String> Leble_Text = []; // Text Filds Lable
+  List<String> Hint_Text = []; // Text Filds Hint
+  List<Widget> Form_Fields = []; // List of Fields creat by user
+
   double height_Of_Container = 70;
   bool edit_Box = false;
   User? currrent_user = FirebaseAuth.instance.currentUser;
@@ -51,6 +55,116 @@ class _New_FormState extends State<New_Form> {
   void chang_Hei_f(double h) {
     height_of_field = h;
     setState(() {});
+  }
+
+  void Add_Hint_Lable() {
+    Leble_Text.add("value1111");
+    Hint_Text.add("value");
+    // print(Text_Filds_Hint.length);
+    print(Leble_Text);
+    setState(() {});
+  }
+
+  void Add_Fields({required String field, required int index_of_H_L}) {
+    if (field == "Text") {
+      Form_Fields.add(
+        TextFormField(
+          onChanged: (value) {},
+          decoration: InputDecoration(
+            prefix: Text(" "),
+            hintText: Hint_Text[index_of_H_L],
+            labelText: Leble_Text[index_of_H_L],
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Date") {
+      Form_Fields.add(
+        Container(
+          color: Colors.white,
+          child: Center(
+            child: Text("${DateTime.now()}"),
+          ),
+        ),
+      );
+    } else if (field == "Text Area") {
+      Form_Fields.add(
+        TextFormField(
+          minLines: 1,
+          maxLines: 4,
+          decoration: InputDecoration(
+            prefix: Text(" "),
+            labelText: Leble_Text[index_of_H_L],
+            contentPadding: EdgeInsets.zero,
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Number") {
+      Form_Fields.add(
+        TextFormField(
+          keyboardType: TextInputType.number,
+          decoration: InputDecoration(
+            prefix: Text(" "),
+            contentPadding: EdgeInsets.zero,
+            hintText: Hint_Text[index_of_H_L],
+            labelText: Leble_Text[index_of_H_L],
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Password") {
+      Form_Fields.add(
+        TextFormField(
+          obscureText: true,
+          decoration: InputDecoration(
+            prefix: Text(" "),
+            contentPadding: EdgeInsets.zero,
+            hintText: Hint_Text[index_of_H_L],
+            labelText: Leble_Text[index_of_H_L],
+            filled: true,
+            fillColor: Colors.white,
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      );
+    } else if (field == "Drop Down") {
+      Form_Fields.add(DropdownMenu(dropdownMenuEntries: []));
+    }
   }
 
   @override
@@ -75,6 +189,7 @@ class _New_FormState extends State<New_Form> {
             padding: EdgeInsets.only(right: 10),
             child: GestureDetector(
               onTap: () async {
+                // widget.Form_name.insert(0, widget.Form_name);
                 Map<String, String> Map_Filds_Name =
                     {}; //firebase me store karne ke liye map me convert kiya
                 Map<String, String> Map_Leble_Text =
@@ -94,11 +209,11 @@ class _New_FormState extends State<New_Form> {
                     .doc("filds name")
                     .set(Map_Filds_Name);
 
-                for (int i = 0; i < widget.Leble_Text!.length; i++) {
-                  Map_Leble_Text[i.toString()] = widget.Leble_Text![i];
+                for (int i = 0; i < Leble_Text.length; i++) {
+                  Map_Leble_Text[i.toString()] = Leble_Text[i];
                 }
                 Map_Leble_Text["UserId"] = "${currrent_user?.uid}";
-                Map_Leble_Text["Length"] = "${widget.Leble_Text!.length}";
+                Map_Leble_Text["Length"] = "${Leble_Text.length}";
 
                 await FirebaseFirestore.instance
                     .collection("form")
@@ -106,12 +221,11 @@ class _New_FormState extends State<New_Form> {
                     .collection("form_list")
                     .doc("Lables Text")
                     .set(Map_Leble_Text);
-                for (int i = 0; i < widget.Hint_Text!.length; i++) {
-                  Map_Hint_Text[i.toString()] = widget.Hint_Text![i];
+                for (int i = 0; i < Hint_Text.length; i++) {
+                  Map_Hint_Text[i.toString()] = Hint_Text[i];
                 }
                 Map_Hint_Text["UserId"] = "${currrent_user?.uid}";
-                Map_Hint_Text["Length"] =
-                    "${widget.Hint_Text!.length.toString()}";
+                Map_Hint_Text["Length"] = "${Hint_Text.length.toString()}";
                 await FirebaseFirestore.instance
                     .collection("form")
                     .doc(widget.Form_name)
@@ -120,8 +234,8 @@ class _New_FormState extends State<New_Form> {
                     .set(Map_Hint_Text);
                 // print(Map_Filds_Name);
                 widget.Filds_Name!.clear();
-                widget.Hint_Text!.clear();
-                widget.Leble_Text!.clear();
+                Hint_Text.clear();
+                Leble_Text.clear();
                 Get.to(() => Show_my_form(
                       // Filds_Name: widget.Filds_Name,
                       // Hint_Text: widget.Hint_Text,
@@ -183,14 +297,11 @@ class _New_FormState extends State<New_Form> {
                                       width: 100,
                                       child: TextFormField(
                                         controller: TextEditingController(
-                                          text: widget
-                                              .Leble_Text![index_Num!.toInt()],
+                                          text: Leble_Text[index_Num],
                                         ),
                                         onChanged: (value) {
-                                          widget.Leble_Text!.replaceRange(
-                                              index_Num,
-                                              index_Num + 1,
-                                              [value]);
+                                          Leble_Text.replaceRange(index_Num,
+                                              index_Num + 1, [value]);
                                         },
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.zero,
@@ -201,14 +312,12 @@ class _New_FormState extends State<New_Form> {
                                     ),
                                     IconButton.outlined(
                                       onPressed: () {
-                                        widget.Form_Fields!
-                                            .removeAt(index_Num!.toInt());
+                                        Form_Fields.removeAt(
+                                            index_Num!.toInt());
                                         widget.Filds_Name!
                                             .removeAt(index_Num!.toInt());
-                                        widget.Leble_Text!
-                                            .removeAt(index_Num!.toInt());
-                                        widget.Hint_Text!
-                                            .removeAt(index_Num!.toInt());
+                                        Leble_Text.removeAt(index_Num!.toInt());
+                                        Hint_Text.removeAt(index_Num!.toInt());
                                         edit_Box = false;
                                         setState(() {});
                                       },
@@ -225,15 +334,11 @@ class _New_FormState extends State<New_Form> {
                                       width: 100,
                                       child: TextFormField(
                                         controller: TextEditingController(
-                                          text: widget
-                                              .Hint_Text![index_Num!.toInt()],
+                                          text: Hint_Text[index_Num],
                                         ),
                                         onChanged: (value) {
-                                          widget.Hint_Text!.replaceRange(
-                                              index_Num - 1,
-                                              index_Num,
-                                              [value]);
-                                          setState(() {});
+                                          Hint_Text.replaceRange(index_Num,
+                                              index_Num + 1, [value]);
                                         },
                                         decoration: InputDecoration(
                                           contentPadding: EdgeInsets.zero,
@@ -326,6 +431,7 @@ class _New_FormState extends State<New_Form> {
                             GestureDetector(
                               onTap: () {
                                 edit_Box = false;
+                                print(Hint_Text);
                                 setState(() {});
                               },
                               child: Container(
@@ -376,10 +482,10 @@ class _New_FormState extends State<New_Form> {
                                           widget.Filds_Name!.add("Text");
                                           int Filds_Name_Length =
                                               widget.Filds_Name!.length;
-                                          widget
-                                              .Add_Hint_Lable!(); // add hint and lable text
 
-                                          widget.Add_Field!(
+                                          Add_Hint_Lable(); // add hint and lable text
+
+                                          Add_Fields!(
                                               field: widget.Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
@@ -409,10 +515,10 @@ class _New_FormState extends State<New_Form> {
                                           widget.Filds_Name!.add("Date");
                                           int Filds_Name_Length =
                                               widget.Filds_Name!.length;
-                                          widget
-                                              .Add_Hint_Lable!(); // add hint and lable text
 
-                                          widget.Add_Field!(
+                                          Add_Hint_Lable(); // add hint and lable text
+
+                                          Add_Fields(
                                               field: widget.Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
@@ -454,10 +560,10 @@ class _New_FormState extends State<New_Form> {
                                           widget.Filds_Name!.add("Text Area");
                                           int Filds_Name_Length =
                                               widget.Filds_Name!.length;
-                                          widget
-                                              .Add_Hint_Lable!(); // add hint and lable text
 
-                                          widget.Add_Field!(
+                                          Add_Hint_Lable!(); // add hint and lable text
+
+                                          Add_Fields(
                                               field: widget.Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
@@ -484,10 +590,10 @@ class _New_FormState extends State<New_Form> {
                                           widget.Filds_Name!.add("Number");
                                           int Filds_Name_Length =
                                               widget.Filds_Name!.length;
-                                          widget
-                                              .Add_Hint_Lable!(); // add hint and lable text
 
-                                          widget.Add_Field!(
+                                          Add_Hint_Lable(); // add hint and lable text
+
+                                          Add_Fields(
                                               field: widget.Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
@@ -528,10 +634,10 @@ class _New_FormState extends State<New_Form> {
                                           widget.Filds_Name!.add("Password");
                                           int Filds_Name_Length =
                                               widget.Filds_Name!.length;
-                                          widget
-                                              .Add_Hint_Lable!(); // add hint and lable text
 
-                                          widget.Add_Field!(
+                                          Add_Hint_Lable(); // add hint and lable text
+
+                                          Add_Fields(
                                               field: widget.Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
@@ -559,10 +665,10 @@ class _New_FormState extends State<New_Form> {
                                           widget.Filds_Name!.add("Drop Down");
                                           int Filds_Name_Length =
                                               widget.Filds_Name!.length;
-                                          widget
-                                              .Add_Hint_Lable!(); // add hint and lable text
 
-                                          widget.Add_Field!(
+                                          Add_Hint_Lable(); // add hint and lable text
+
+                                          Add_Fields(
                                               field: widget.Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
@@ -636,7 +742,7 @@ class _New_FormState extends State<New_Form> {
                 width: double.infinity,
                 // height: MediaQuery.of(context).size.height - 450,
                 child: GridView.builder(
-                  itemCount: widget.Form_Fields!.length,
+                  itemCount: Form_Fields.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: Grid_column,
                     mainAxisExtent: height_of_field,
@@ -647,16 +753,21 @@ class _New_FormState extends State<New_Form> {
                         index_Num = index;
                         edit_Box = true;
                         setState(() {});
-                        print("object");
+                        print(Leble_Text[index]);
                         print(index_Num);
                       },
                       child: Container(
-                        // padding: EdgeInsets.all(5),
-                        // color: Colors.white,
-                        height: 20,
+                        padding: EdgeInsets.only(top: 20, left: 10),
+
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        // height: 20,
                         margin: EdgeInsets.all(10),
+
                         child: AbsorbPointer(
-                          child: widget.Form_Fields![index],
+                          child: Text(Leble_Text[index]),
                           absorbing: true,
                         ),
                       ),

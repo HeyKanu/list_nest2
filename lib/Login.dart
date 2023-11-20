@@ -9,10 +9,19 @@ import 'package:list_nest2/SignUp.dart';
 import 'package:list_nest2/Templets.dart';
 import './forget_screen.dart';
 
-class Login_Page extends StatelessWidget {
+class Login_Page extends StatefulWidget {
   @override
+  State<Login_Page> createState() => _Login_PageState();
+}
+
+class _Login_PageState extends State<Login_Page> {
+  @override
+  bool ab = true;
+
   var email_con = TextEditingController();
+
   var password_con = TextEditingController();
+
   final _login_key = GlobalKey<FormState>();
 
   Widget build(BuildContext context) {
@@ -118,7 +127,7 @@ class Login_Page extends StatelessWidget {
                       }
                       return null;
                     },
-                    obscureText: true,
+                    obscureText: ab,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
@@ -134,10 +143,24 @@ class Login_Page extends StatelessWidget {
                           color: const Color.fromARGB(255, 255, 0, 0),
                         ),
                       ),
-                      suffixIcon: Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: Color.fromARGB(129, 255, 255, 255),
-                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            if (ab == true) {
+                              ab = false;
+                              setState(() {});
+                            } else {
+                              ab = true;
+                              setState(() {});
+                            }
+                          },
+                          icon: Icon(
+                            ab == true
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.remove_red_eye,
+                            color: ab
+                                ? const Color.fromARGB(125, 255, 255, 255)
+                                : Colors.white,
+                          )),
                       labelText: "Password",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),

@@ -11,12 +11,25 @@ import 'package:list_nest2/Login.dart';
 import 'package:list_nest2/Templets.dart';
 import './services.dart';
 
-class Sign_Up_Page extends StatelessWidget {
+class Sign_Up_Page extends StatefulWidget {
   Sign_Up_Page({super.key});
+
+  @override
+  State<Sign_Up_Page> createState() => _Sign_Up_PageState();
+}
+
+class _Sign_Up_PageState extends State<Sign_Up_Page> {
+  bool ab = true;
+  bool abc = true;
+
   final _SingUp_key = GlobalKey<FormState>();
+
   var user_name_con = TextEditingController();
+
   var user_Email_con = TextEditingController();
+
   var user_phone_no_con = TextEditingController();
+
   var user_password_con = TextEditingController();
 
   @override
@@ -174,7 +187,7 @@ class Sign_Up_Page extends StatelessWidget {
                       }
                       return null;
                     },
-                    obscureText: true,
+                    obscureText: abc,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
@@ -193,10 +206,24 @@ class Sign_Up_Page extends StatelessWidget {
                       labelText: "Password",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),
-                      suffixIcon: Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: Color.fromARGB(129, 255, 255, 255),
-                      ),
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            if (abc == true) {
+                              abc = false;
+                              setState(() {});
+                            } else {
+                              abc = true;
+                              setState(() {});
+                            }
+                          },
+                          icon: Icon(
+                            abc == true
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.remove_red_eye,
+                            color: abc
+                                ? const Color.fromARGB(125, 255, 255, 255)
+                                : Colors.white,
+                          )),
                       prefixText: "  ",
                       hintText: "Enter Your Password",
                       hintStyle:
@@ -229,10 +256,28 @@ class Sign_Up_Page extends StatelessWidget {
                       }
                       return null;
                     },
-                    obscureText: true,
+                    obscureText: ab,
                     style: TextStyle(color: Colors.white),
                     cursorColor: Colors.white,
                     decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            if (ab == true) {
+                              ab = false;
+                              setState(() {});
+                            } else {
+                              ab = true;
+                              setState(() {});
+                            }
+                          },
+                          icon: Icon(
+                            ab == true
+                                ? Icons.remove_red_eye_outlined
+                                : Icons.remove_red_eye,
+                            color: ab
+                                ? const Color.fromARGB(125, 255, 255, 255)
+                                : Colors.white,
+                          )),
                       focusedErrorBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(90),
                         borderSide: BorderSide(
@@ -248,10 +293,6 @@ class Sign_Up_Page extends StatelessWidget {
                       labelText: "Confirm Password",
                       labelStyle: TextStyle(
                           color: const Color.fromARGB(162, 255, 255, 255)),
-                      suffixIcon: Icon(
-                        Icons.remove_red_eye_outlined,
-                        color: Color.fromARGB(129, 255, 255, 255),
-                      ),
                       prefixText: "  ",
                       hintText: "Confirm Your Password",
                       hintStyle:

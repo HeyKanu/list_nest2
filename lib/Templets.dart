@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:list_nest2/Data_show.dart';
 import 'package:list_nest2/Login.dart';
 import 'package:list_nest2/show_form.dart';
 import './New_Form.dart';
@@ -310,9 +311,12 @@ class _Templets_pageState extends State<Templets_page> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      Get.to(Show_my_form(
-                                        Form_Name: Form_names[index],
+                                      Get.to(Data_show(
+                                        Form_name: Form_names[index],
                                       ));
+                                      // Get.to(Show_my_form(
+                                      //   Form_Name: Form_names[index],
+                                      // ));
                                     },
                                     child: Container(
                                       margin: EdgeInsets.all(10),
@@ -332,8 +336,6 @@ class _Templets_pageState extends State<Templets_page> {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: Form_names.length,
                               );
-
-                              return Container();
                             }
                             return Container();
                           })),
@@ -503,12 +505,12 @@ class _Templets_pageState extends State<Templets_page> {
 // ____________________________________________________________________________________________   (go to next page)   ______________________________________
                           Get.off(New_Form(
                             Form_name: Form_names[0],
-                            Add_Field: Add_Fields,
-                            Form_Fields: Form_Fields,
+                            // Add_Field: Add_Fields,
+                            // Form_Fields: Form_Fields,
                             Filds_Name: Filds_Names,
-                            Add_Hint_Lable: Add_Hint_Lable,
-                            Leble_Text: Text_Filds_Lable,
-                            Hint_Text: Text_Filds_Hint,
+                            // Add_Hint_Lable: Add_Hint_Lable,
+                            // Leble_Text: Text_Filds_Lable,
+                            // Hint_Text: Text_Filds_Hint,
                           ));
                         },
                         child: Text(

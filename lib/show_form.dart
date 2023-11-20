@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:list_nest2/Data_show.dart';
 import 'package:list_nest2/services.dart';
 
 class Show_my_form extends StatefulWidget {
@@ -26,6 +28,7 @@ class _Show_my_formState extends State<Show_my_form> {
   List<String> Hint_Text = [];
   List<String> User_entries = [];
   List<TextEditingController> Filds_controllers = [];
+  bool? ab = true;
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +125,7 @@ class _Show_my_formState extends State<Show_my_form> {
                         minLines: 1,
                         maxLines: 4,
                         decoration: InputDecoration(
+                          prefix: Text(" "),
                           labelText: Leble_Text[i],
                           contentPadding: EdgeInsets.zero,
                           filled: true,
@@ -146,6 +150,7 @@ class _Show_my_formState extends State<Show_my_form> {
                         },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
+                          prefix: Text(" "),
                           contentPadding: EdgeInsets.zero,
                           hintText: Hint_Text[i],
                           labelText: Leble_Text[i],
@@ -171,6 +176,18 @@ class _Show_my_formState extends State<Show_my_form> {
                         },
                         obscureText: true,
                         decoration: InputDecoration(
+                          suffixIcon: IconButton(
+                              onPressed: () {
+                                if (ab == true) {
+                                  ab = false;
+                                  setState(() {});
+                                } else {
+                                  ab = true;
+                                }
+                              },
+                              icon: Icon(ab == true
+                                  ? Icons.remove_red_eye_outlined
+                                  : Icons.remove_red_eye)),
                           contentPadding: EdgeInsets.zero,
                           hintText: Hint_Text[i],
                           labelText: Leble_Text[i],
@@ -245,6 +262,9 @@ class _Show_my_formState extends State<Show_my_form> {
                               .doc()
                               .set(Map_User_entries);
                           print(User_entries);
+                          Get.to(Data_show(
+                            Form_name: widget.Form_Name,
+                          ));
                         },
                         child: Container(
                           decoration: BoxDecoration(

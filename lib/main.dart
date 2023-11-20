@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import './New_Form.dart';
 import './Login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import './Data_show.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
