@@ -10,57 +10,51 @@ class Layout extends StatefulWidget {
 }
 
 class _LayoutState extends State<Layout> {
-  List<String> Templets_Names = [
-    "Temp 1",
-    "Temp 2",
-    "Temp 3",
-    "Temp 4",
-    "Temp 5",
-    "Temp 6",
-    "Temp 7",
-    "Temp 8",
-    "Temp 9",
-  ];
+  // List<String> columns_data = [];
+  List<DataColumn> my_columns = [DataColumn(label: Text("str"))];
+  List<DataRow> my_row = [];
+  void add_column(String str) {
+    my_columns.add(DataColumn(label: Text(str)));
+  }
+
+  var s = false;
+  void add_row() {
+    my_row.add(DataRow(
+      cells: [
+        DataCell(Text("1cbcb")),
+        DataCell(Text("2cbcbcb")),
+        DataCell(Text("3cbcbc")),
+        DataCell(Text("4cbcbcb")),
+        DataCell(Text("6cbcbcb")),
+        DataCell(Text("7cbcbcbc")),
+        DataCell(Text("5cbvcbcbc")),
+        DataCell(Text("5cbvccvcc")),
+      ],
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       backgroundColor: Color.fromARGB(255, 191, 247, 113),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.all(10),
-          // height: 550,
-          // width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextField(
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero,
-                  labelText: Templets_Names[0],
-                  filled: true,
-                  fillColor: Colors.amber,
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              TextField(
-                controller: TextEditingController(
-                  text: "name",
-                ),
-                onChanged: (value) {
-                  Templets_Names.replaceRange(0, 1, [value]);
-                  print(Templets_Names[0]);
-                },
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.zero,
-                  filled: true,
-                  fillColor: Colors.amber,
-                  border: OutlineInputBorder(),
-                ),
-              )
-            ],
-          )),
+      body: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            columns: my_columns,
+            rows: my_row,
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            // add_column("Name");
+            add_row();
+            setState(() {});
+          },
+          label: Icon(Icons.add)),
     );
   }
 }

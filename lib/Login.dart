@@ -3,6 +3,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:list_nest2/SignUp.dart';
@@ -16,7 +17,7 @@ class Login_Page extends StatefulWidget {
 
 class _Login_PageState extends State<Login_Page> {
   @override
-  bool ab = true;
+  bool ab = true, loder = false, email_error = false;
 
   var email_con = TextEditingController();
 
@@ -201,48 +202,76 @@ class _Login_PageState extends State<Login_Page> {
                     )
                   ],
                 ),
-                GestureDetector(
-                  // borderRadius: BorderRadius.circular(100),
-                  onTap: () async {
-                    if (_login_key.currentState!.validate()) {
-                      print("validated");
-                      String email_text = email_con.text.trim();
-                      String password_text = password_con.text.trim();
-                      try {
-                        final User? firebaseUser = (await FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: email_text, password: password_text))
-                            .user;
-
-                        if (firebaseUser != null) {
-                          Get.off(Templets_page());
-                        } else {
-                          print("check Email and password");
-                        }
-                      } on FirebaseAuthException catch (e) {
-                        print("Error : $e");
-                      }
-                      ;
-                    } else {
-                      print("Not validate");
-                    }
-
-                    print("object");
-                  },
-                  child: Container(
-                    height: 60,
-                    width: double.infinity,
-                    margin: EdgeInsets.only(top: 30),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(90),
-                        color: Colors.white),
-                    child: Center(
+                email_error
+                    ? Padding(
+                        padding: EdgeInsets.only(left: 10),
                         child: Text(
-                      "Login",
-                      style: TextStyle(fontSize: 20),
-                    )),
-                  ),
-                ),
+                          "check Email and password",
+                          style: TextStyle(
+                              color: Color.fromARGB(166, 255, 0, 0),
+                              fontSize: 12),
+                        ),
+                      )
+                    : SizedBox(),
+                loder
+                    ? Padding(
+                        padding: EdgeInsets.only(top: 25),
+                        child: Center(
+                            child:
+                                CircularProgressIndicator(color: Colors.white)),
+                      )
+                    : GestureDetector(
+                        // borderRadius: BorderRadius.circular(100),
+                        onTap: () async {
+                          if (_login_key.currentState!.validate()) {
+                            print("validated");
+                            String email_text = email_con.text.trim();
+                            String password_text = password_con.text.trim();
+                            try {
+                              loder = true;
+                              setState(() {});
+                              final User? firebaseUser = (await FirebaseAuth
+                                      .instance
+                                      .signInWithEmailAndPassword(
+                                          email: email_text,
+                                          password: password_text))
+                                  .user;
+
+                              if (firebaseUser != null) {
+                                Get.off(Templets_page());
+                              } else {
+                                print("check Email and password");
+                              }
+                            } on FirebaseAuthException catch (e) {
+                              print("Error : check Email and password");
+                              email_error = true;
+                              setState(() {});
+                              loder = false;
+                              setState(() {});
+                            }
+                            ;
+                          } else {
+                            email_error = false;
+                            setState(() {});
+                            print("Not validate");
+                          }
+
+                          print("object");
+                        },
+                        child: Container(
+                          height: 60,
+                          width: double.infinity,
+                          margin: EdgeInsets.only(top: 30),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(90),
+                              color: Colors.white),
+                          child: Center(
+                              child: Text(
+                            "Login",
+                            style: TextStyle(fontSize: 20),
+                          )),
+                        ),
+                      ),
                 SizedBox(
                   height: 15,
                 ),

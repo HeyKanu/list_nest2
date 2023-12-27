@@ -10,27 +10,33 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:get/get.dart';
+// import 'package:get/get.dart';
 import './show_form.dart';
 
 class New_Form extends StatefulWidget {
   var Form_name;
-  // Function? Add_Field;
-  // Function? Add_Hint_Lable;
 
-  // List<Widget>? Form_Fields;
-  List<String>? Filds_Name;
-  // List<String>? Leble_Text;
-  // List<String>? Hint_Text;
-  New_Form({
-    required this.Form_name,
-    // this.Add_Field,
-    // this.Form_Fields,
-    this.Filds_Name,
-    // required this.Add_Hint_Lable,
-    // required this.Leble_Text,
-    // required this.Hint_Text,
-  });
+  // List<String>? Filds_Name;
+  List<String>? Leble_Text_L; // L for Load
+  List<String>? Hint_Text_L;
+  List<Widget>? Form_Fields_L;
+  List<String>? Filds_Name_L;
+  List<String>? All_Forms_Names;
+  bool? update;
+
+  var Grid_column_L;
+  bool? load;
+
+  New_Form(
+      {required this.Form_name,
+      this.Filds_Name_L,
+      this.Form_Fields_L,
+      this.Hint_Text_L,
+      this.Leble_Text_L,
+      this.load,
+      this.Grid_column_L,
+      this.All_Forms_Names,
+      this.update});
 
   @override
   State<New_Form> createState() => _New_FormState();
@@ -40,12 +46,14 @@ class _New_FormState extends State<New_Form> {
   List<String> Leble_Text = []; // Text Filds Lable
   List<String> Hint_Text = []; // Text Filds Hint
   List<Widget> Form_Fields = []; // List of Fields creat by user
+  List<String> Filds_Name = [];
 
   double height_Of_Container = 70;
-  bool edit_Box = false;
+  bool edit_Box = false, loder = false;
   User? currrent_user = FirebaseAuth.instance.currentUser;
   int Grid_column = 1;
   double height_of_field = 80;
+
   var index_Num; //Selected field
   void Refresh([int i = 1]) {
     Grid_column = i;
@@ -60,9 +68,32 @@ class _New_FormState extends State<New_Form> {
   void Add_Hint_Lable() {
     Leble_Text.add("value1111");
     Hint_Text.add("value");
+
     // print(Text_Filds_Hint.length);
     print(Leble_Text);
     setState(() {});
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Leble_Text.clear();
+    Hint_Text.clear();
+    Form_Fields.clear();
+    Filds_Name.clear();
+    if (widget.load == true) {
+      print(".......................");
+      print(widget.Filds_Name_L);
+
+      for (int i = 0; i < widget.Filds_Name_L!.length; i++) {
+        Leble_Text.add(widget.Leble_Text_L![i]);
+        Hint_Text.add(widget.Hint_Text_L![i]);
+        Form_Fields.add(widget.Form_Fields_L![i]);
+        Filds_Name.add(widget.Filds_Name_L![i]);
+      }
+      Grid_column = widget.Grid_column_L;
+    }
   }
 
   void Add_Fields({required String field, required int index_of_H_L}) {
@@ -185,70 +216,115 @@ class _New_FormState extends State<New_Form> {
           // style: TextStyle(color: Colors.black),
         ),
         actions: [
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: GestureDetector(
-              onTap: () async {
-                // widget.Form_name.insert(0, widget.Form_name);
-                Map<String, String> Map_Filds_Name =
-                    {}; //firebase me store karne ke liye map me convert kiya
-                Map<String, String> Map_Leble_Text =
-                    {}; //firebase me store karne ke liye map me convert kiya
-                Map<String, String> Map_Hint_Text =
-                    {}; //firebase me store karne ke liye map me convert kiya
-                for (int i = 0; i < widget.Filds_Name!.length; i++) {
-                  Map_Filds_Name[i.toString()] = widget.Filds_Name![i];
-                }
-                Map_Filds_Name["UserId"] = "${currrent_user?.uid}";
-                Map_Filds_Name["Length"] = "${widget.Filds_Name!.length}";
-                Map_Filds_Name["Grid"] = Grid_column.toString();
-                await FirebaseFirestore.instance
-                    .collection("form")
-                    .doc(widget.Form_name)
-                    .collection("form_list")
-                    .doc("filds name")
-                    .set(Map_Filds_Name);
+          loder
+              ? Padding(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  child: CircularProgressIndicator(
+                    color: Color.fromARGB(255, 1, 1, 27),
+                  ))
+              : Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: GestureDetector(
+                    onTap: () async {
+                      loder = true;
+                      setState(() {});
+                      print("Form name ---- ${widget.Form_name}");
+                      // widget.Form_name.insert(0, widget.Form_name);
+                      Map<String, String> Map_Filds_Name =
+                          {}; //firebase me store karne ke liye map me convert kiya
+                      Map<String, String> Map_Leble_Text =
+                          {}; //firebase me store karne ke liye map me convert kiya
+                      Map<String, String> Map_Hint_Text =
+                          {}; //firebase me store karne ke liye map me convert kiya
+                      for (int i = 0; i < Filds_Name!.length; i++) {
+                        print("Filds name ==== ${Filds_Name[i]}");
+                        Map_Filds_Name[i.toString()] = Filds_Name![i];
+                      }
+                      Map_Filds_Name["UserId"] = "${currrent_user?.uid}";
+                      Map_Filds_Name["Length"] = "${Filds_Name!.length}";
+                      Map_Filds_Name["Grid"] = Grid_column.toString();
+                      print("Filds name MAp ==== ${Map_Filds_Name}");
+                      await FirebaseFirestore.instance
+                          .collection("${currrent_user?.uid}")
+                          .doc(widget.Form_name)
+                          .collection("form_list")
+                          .doc("filds name")
+                          .set(Map_Filds_Name);
+                      print("Data sand Done.....................");
 
-                for (int i = 0; i < Leble_Text.length; i++) {
-                  Map_Leble_Text[i.toString()] = Leble_Text[i];
-                }
-                Map_Leble_Text["UserId"] = "${currrent_user?.uid}";
-                Map_Leble_Text["Length"] = "${Leble_Text.length}";
+                      for (int i = 0; i < Leble_Text.length; i++) {
+                        Map_Leble_Text[i.toString()] = Leble_Text[i];
+                      }
+                      Map_Leble_Text["UserId"] = "${currrent_user?.uid}";
+                      Map_Leble_Text["Length"] = "${Leble_Text.length}";
 
-                await FirebaseFirestore.instance
-                    .collection("form")
-                    .doc(widget.Form_name)
-                    .collection("form_list")
-                    .doc("Lables Text")
-                    .set(Map_Leble_Text);
-                for (int i = 0; i < Hint_Text.length; i++) {
-                  Map_Hint_Text[i.toString()] = Hint_Text[i];
-                }
-                Map_Hint_Text["UserId"] = "${currrent_user?.uid}";
-                Map_Hint_Text["Length"] = "${Hint_Text.length.toString()}";
-                await FirebaseFirestore.instance
-                    .collection("form")
-                    .doc(widget.Form_name)
-                    .collection("form_list")
-                    .doc("hint Text")
-                    .set(Map_Hint_Text);
-                // print(Map_Filds_Name);
-                widget.Filds_Name!.clear();
-                Hint_Text.clear();
-                Leble_Text.clear();
-                Get.to(() => Show_my_form(
-                      // Filds_Name: widget.Filds_Name,
-                      // Hint_Text: widget.Hint_Text,
-                      // Leble_Text: widget.Leble_Text,
-                      Form_Name: widget.Form_name,
-                    ));
-              },
-              child: Icon(
-                Icons.save_as_outlined,
-                size: 30,
-              ),
-            ),
-          ),
+                      await FirebaseFirestore.instance
+                          .collection("${currrent_user?.uid}")
+                          .doc(widget.Form_name)
+                          .collection("form_list")
+                          .doc("Lables Text")
+                          .set(Map_Leble_Text);
+                      for (int i = 0; i < Hint_Text.length; i++) {
+                        Map_Hint_Text[i.toString()] = Hint_Text[i];
+                      }
+                      Map_Hint_Text["UserId"] = "${currrent_user?.uid}";
+                      Map_Hint_Text["Length"] =
+                          "${Hint_Text.length.toString()}";
+                      print("Lables name MAp ==== ${Map_Hint_Text}");
+                      await FirebaseFirestore.instance
+                          .collection("${currrent_user?.uid}")
+                          .doc(widget.Form_name)
+                          .collection("form_list")
+                          .doc("hint Text")
+                          .set(Map_Hint_Text);
+                      print(Map_Filds_Name);
+                      // widget.Filds_Name!.clear();
+                      // Hint_Text.clear();
+                      // Leble_Text.clear();
+                      print("Done...........");
+                      if (widget.update == true) {
+                        print("Done 2 ...........");
+                        widget.All_Forms_Names!.insert(0, widget.Form_name);
+                        Map<String, String> Map_Form_Names = {};
+                        for (int i = 0;
+                            i < widget.All_Forms_Names!.length;
+                            i++) {
+                          Map_Form_Names[i.toString()] =
+                              widget.All_Forms_Names![i];
+                        }
+                        Map_Form_Names["userId"] =
+                            currrent_user!.uid.toString();
+                        Map_Form_Names["Length"] =
+                            widget.All_Forms_Names!.length.toString();
+
+                        await FirebaseFirestore.instance
+                            .collection("${currrent_user!.uid}")
+                            .doc("names")
+                            .set(Map_Form_Names);
+                        Map<String, String> Map_Trash = {};
+                        Map_Trash["userId"] = currrent_user!.uid.toString();
+                        Map_Trash["Length"] = "0";
+
+                        await FirebaseFirestore.instance
+                            .collection("${currrent_user!.uid}")
+                            .doc("Trash")
+                            .set(Map_Trash);
+                      }
+                      loder = false;
+
+                      Get.off(() => Show_my_form(
+                            Form_Name: widget.Form_name,
+                            update: false,
+                          ));
+
+                      setState(() {});
+                    },
+                    child: Icon(
+                      Icons.save_as_outlined,
+                      size: 30,
+                    ),
+                  ),
+                ),
         ],
       ),
       body: Container(
@@ -314,7 +390,7 @@ class _New_FormState extends State<New_Form> {
                                       onPressed: () {
                                         Form_Fields.removeAt(
                                             index_Num!.toInt());
-                                        widget.Filds_Name!
+                                        Filds_Name!
                                             .removeAt(index_Num!.toInt());
                                         Leble_Text.removeAt(index_Num!.toInt());
                                         Hint_Text.removeAt(index_Num!.toInt());
@@ -479,14 +555,14 @@ class _New_FormState extends State<New_Form> {
                                       //_______________________________________________________________________________  (add text)  ________________________________________
                                       GestureDetector(
                                         onTap: () {
-                                          widget.Filds_Name!.add("Text");
+                                          Filds_Name!.add("Text");
                                           int Filds_Name_Length =
-                                              widget.Filds_Name!.length;
+                                              Filds_Name!.length;
 
                                           Add_Hint_Lable(); // add hint and lable text
 
                                           Add_Fields!(
-                                              field: widget.Filds_Name![
+                                              field: Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
                                                   Filds_Name_Length - 1);
@@ -512,14 +588,14 @@ class _New_FormState extends State<New_Form> {
                                       //_______________________________________________________________________________  (add Date)  ________________________________________
                                       GestureDetector(
                                         onTap: () {
-                                          widget.Filds_Name!.add("Date");
+                                          Filds_Name!.add("Date");
                                           int Filds_Name_Length =
-                                              widget.Filds_Name!.length;
+                                              Filds_Name!.length;
 
                                           Add_Hint_Lable(); // add hint and lable text
 
                                           Add_Fields(
-                                              field: widget.Filds_Name![
+                                              field: Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
                                                   Filds_Name_Length - 1);
@@ -557,14 +633,14 @@ class _New_FormState extends State<New_Form> {
                                       //_______________________________________________________________________________  (add text Area)  ________________________________________
                                       GestureDetector(
                                         onTap: () {
-                                          widget.Filds_Name!.add("Text Area");
+                                          Filds_Name!.add("Text Area");
                                           int Filds_Name_Length =
-                                              widget.Filds_Name!.length;
+                                              Filds_Name!.length;
 
                                           Add_Hint_Lable!(); // add hint and lable text
 
                                           Add_Fields(
-                                              field: widget.Filds_Name![
+                                              field: Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
                                                   Filds_Name_Length - 1);
@@ -587,14 +663,14 @@ class _New_FormState extends State<New_Form> {
                                       //_______________________________________________________________________________  (add Number)  ________________________________________
                                       GestureDetector(
                                         onTap: () {
-                                          widget.Filds_Name!.add("Number");
+                                          Filds_Name!.add("Number");
                                           int Filds_Name_Length =
-                                              widget.Filds_Name!.length;
+                                              Filds_Name!.length;
 
                                           Add_Hint_Lable(); // add hint and lable text
 
                                           Add_Fields(
-                                              field: widget.Filds_Name![
+                                              field: Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
                                                   Filds_Name_Length - 1);
@@ -631,14 +707,14 @@ class _New_FormState extends State<New_Form> {
                                       //_______________________________________________________________________________  (add Password)  ________________________________________
                                       GestureDetector(
                                         onTap: () {
-                                          widget.Filds_Name!.add("Password");
+                                          Filds_Name!.add("Password");
                                           int Filds_Name_Length =
-                                              widget.Filds_Name!.length;
+                                              Filds_Name!.length;
 
                                           Add_Hint_Lable(); // add hint and lable text
 
                                           Add_Fields(
-                                              field: widget.Filds_Name![
+                                              field: Filds_Name![
                                                   Filds_Name_Length - 1],
                                               index_of_H_L:
                                                   Filds_Name_Length - 1);
@@ -660,35 +736,35 @@ class _New_FormState extends State<New_Form> {
                                         ),
                                       ),
                                       //_______________________________________________________________________________  (add Drop Down)  ________________________________________
-                                      GestureDetector(
-                                        onTap: () {
-                                          widget.Filds_Name!.add("Drop Down");
-                                          int Filds_Name_Length =
-                                              widget.Filds_Name!.length;
+                                      // GestureDetector(
+                                      //   onTap: () {
+                                      //     widget.Filds_Name!.add("Drop Down");
+                                      //     int Filds_Name_Length =
+                                      //         widget.Filds_Name!.length;
 
-                                          Add_Hint_Lable(); // add hint and lable text
+                                      //     Add_Hint_Lable(); // add hint and lable text
 
-                                          Add_Fields(
-                                              field: widget.Filds_Name![
-                                                  Filds_Name_Length - 1],
-                                              index_of_H_L:
-                                                  Filds_Name_Length - 1);
-                                          setState(() {});
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: 160,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            border: Border.all(),
-                                          ),
-                                          child: Center(
-                                            child: Text("Drop Down"),
-                                          ),
-                                        ),
-                                      ),
+                                      //     Add_Fields(
+                                      //         field: widget.Filds_Name![
+                                      //             Filds_Name_Length - 1],
+                                      //         index_of_H_L:
+                                      //             Filds_Name_Length - 1);
+                                      //     setState(() {});
+                                      //   },
+                                      //   child: Container(
+                                      //     height: 50,
+                                      //     width: 160,
+                                      //     decoration: BoxDecoration(
+                                      //       color: Colors.white,
+                                      //       borderRadius:
+                                      //           BorderRadius.circular(10),
+                                      //       border: Border.all(),
+                                      //     ),
+                                      //     child: Center(
+                                      //       child: Text("Drop Down"),
+                                      //     ),
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ),
